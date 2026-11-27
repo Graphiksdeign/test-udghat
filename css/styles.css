@@ -564,7 +564,7 @@ details[open] summary::before {
   margin: 16px 0 2px;
 }
 
-.tags span {
+.tags > span {
   font-size: 13px;
   border: 1px solid var(--line);
   border-radius: 40px;
@@ -694,7 +694,7 @@ details[open] summary::before {
   transition: border-color 0.25s ease, transform 0.25s ease;
 }
 
-.team-portrait span {
+.team-portrait > span {
   font-size: clamp(36px, 3vw, 48px);
   font-weight: 600;
   letter-spacing: -0.03em;
@@ -714,7 +714,7 @@ details[open] summary::before {
   transform: translateY(-3px);
 }
 
-.team-card:hover .team-portrait span {
+.team-card:hover .team-portrait > span {
   color: var(--orange);
 }
 
