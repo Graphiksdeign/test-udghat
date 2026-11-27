@@ -113,12 +113,22 @@ header::before {
   transition: opacity 0.2s ease;
 }
 
+header.menu-open {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 60;
+}
+
 header.menu-open::before {
-  opacity: 0;
+  display: none;
 }
 
 header.menu-open .logo {
   color: var(--ivory);
+  transform: translateZ(0);
 }
 
 .logo {
@@ -164,8 +174,12 @@ nav a:hover {
   color: var(--orange);
 }
 
+.nav-home,
 .talk {
   display: none;
+}
+
+.talk {
   border: 1px solid var(--ink);
   border-radius: 100px;
   padding: 9px 18px;
@@ -181,7 +195,8 @@ nav a.talk:hover {
 .menu-toggle {
   display: none;
   position: relative;
-  z-index: 50;
+  z-index: 65;
+  transform: translateZ(0);
   background: none;
   border: 1px solid var(--line);
   border-radius: 50%;
@@ -519,13 +534,15 @@ summary::-webkit-details-marker {
 }
 
 summary::before {
-  content: "+";
+  content: "";
   border: 1px solid var(--line);
-  width: 20px;
-  height: 20px;
-  display: grid;
-  place-items: center;
+  width: 22px;
+  height: 22px;
+  flex: none;
   border-radius: 50%;
+  background:
+    linear-gradient(currentColor, currentColor) center / 9px 1.5px no-repeat,
+    linear-gradient(currentColor, currentColor) center / 1.5px 9px no-repeat;
   transition: border-color 0.2s ease, color 0.2s ease;
 }
 
@@ -535,9 +552,9 @@ summary:hover::before {
 }
 
 details[open] summary::before {
-  content: "−";
   border-color: var(--orange);
   color: var(--orange);
+  background: linear-gradient(currentColor, currentColor) center / 9px 1.5px no-repeat;
 }
 
 .tags {
@@ -985,8 +1002,17 @@ footer {
 
 /* Responsive */
 @media (max-width: 850px) {
+  html.menu-locked,
   body.menu-locked {
     overflow: hidden;
+    overscroll-behavior: none;
+  }
+
+  body.menu-locked {
+    position: fixed;
+    left: 0;
+    right: 0;
+    width: 100%;
   }
 
   header {
@@ -1011,19 +1037,19 @@ footer {
     gap: 22px;
     padding: 96px 8vw 48px;
     white-space: normal;
+    overflow-y: auto;
+    overscroll-behavior: contain;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transform: translateY(-10px);
-    transition: opacity 0.25s ease, transform 0.28s ease, visibility 0s linear 0.25s;
+    transition: opacity 0.22s ease, visibility 0s linear 0.22s;
   }
 
   nav.open {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
-    transform: translateY(0);
-    transition: opacity 0.25s ease, transform 0.28s ease, visibility 0s;
+    transition: opacity 0.22s ease, visibility 0s;
   }
 
   nav a {
@@ -1031,6 +1057,10 @@ footer {
     font-weight: 600;
     letter-spacing: -0.025em;
     line-height: 1.15;
+  }
+
+  nav a.nav-home {
+    display: inline-block;
   }
 
   nav a.talk {

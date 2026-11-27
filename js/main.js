@@ -196,11 +196,30 @@
   const menu = document.querySelector('.menu-toggle');
   const nav = document.querySelector('nav');
   if (header && menu && nav) {
+    let lockedY = 0;
+
     function setMenuOpen(state) {
+      const root = document.documentElement;
+      if (state) {
+        lockedY = scrollY;
+        document.body.style.top = `-${lockedY}px`;
+      } else {
+        document.body.style.top = '';
+      }
+
       nav.classList.toggle('open', state);
       header.classList.toggle('menu-open', state);
+      root.classList.toggle('menu-locked', state);
       document.body.classList.toggle('menu-locked', state);
       menu.setAttribute('aria-expanded', state);
+
+      if (!state && lockedY) {
+        const prevBehavior = root.style.scrollBehavior;
+        root.style.scrollBehavior = 'auto';
+        scrollTo(0, lockedY);
+        root.style.scrollBehavior = prevBehavior;
+        lockedY = 0;
+      }
     }
 
     menu.onclick = () => {
@@ -210,6 +229,13 @@
     nav.querySelectorAll('a').forEach((a) =>
       a.addEventListener('click', () => setMenuOpen(false))
     );
+
+    const logoLink = header.querySelector('.logo');
+    if (logoLink) {
+      logoLink.addEventListener('click', () => {
+        if (nav.classList.contains('open')) setMenuOpen(false);
+      });
+    }
 
     addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && nav.classList.contains('open')) {
