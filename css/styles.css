@@ -707,14 +707,25 @@ details[open] summary::before {
   height: 100%;
   object-fit: cover;
   display: block;
+  filter: grayscale(1);
+  transform: scale(1);
+  transition: filter 0.35s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.team-card:hover .team-portrait {
+.team-card:hover .team-portrait,
+.team-card:focus-within .team-portrait {
   border-color: var(--orange);
   transform: translateY(-3px);
 }
 
-.team-card:hover .team-portrait > span {
+.team-card:hover .team-portrait img,
+.team-card:focus-within .team-portrait img {
+  filter: grayscale(0);
+  transform: scale(1.04);
+}
+
+.team-card:hover .team-portrait > span,
+.team-card:focus-within .team-portrait > span {
   color: var(--orange);
 }
 
@@ -1254,6 +1265,18 @@ footer {
 
   .back-top-arrow {
     animation: none;
+  }
+
+  .team-portrait,
+  .team-portrait img {
+    transition: none;
+  }
+
+  .team-card:hover .team-portrait,
+  .team-card:focus-within .team-portrait,
+  .team-card:hover .team-portrait img,
+  .team-card:focus-within .team-portrait img {
+    transform: none;
   }
 }
 
